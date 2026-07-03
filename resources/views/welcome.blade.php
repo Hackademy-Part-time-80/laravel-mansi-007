@@ -13,7 +13,9 @@
 
      <ul>
          @foreach ($books as $book)
-             <li><img style="height:10rem;" src="{{ Storage::url($book->image) }}" alt="">{{ $book->name }}</li>
+             <li><img style="height:10rem;"
+                     src="{{ $book->image ? Storage::url($book->image) : env('APP_IMAGE_DEFAULT') }}) }}"
+                     alt="">{{ $book->name }}</li>
          @endforeach
 
      </ul>
