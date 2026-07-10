@@ -13,9 +13,16 @@
 
      <ul>
          @foreach ($books as $book)
-             <li><img style="height:10rem;"
-                     src="{{ $book->image ? Storage::url($book->image) : env('APP_IMAGE_DEFAULT') }}) }}"
-                     alt="">{{ $book->name }}</li>
+             <li class="mt-2">
+                 <a href="{{ route('books.show', ['book' => $book]) }}">{{ $book->name }}</a>
+                 <a href="{{ route('books.edit', ['book' => $book]) }}" class="btn btn-warning">Modifica</a>
+                 <form action="{{ route('books.destroy', ['book' => $book]) }}" method="POST">
+                     @csrf
+                     @method('DELETE')
+                     <button class="btn btn-danger" type="submit">Elimina</button>
+                 </form>
+
+             </li>
          @endforeach
 
      </ul>

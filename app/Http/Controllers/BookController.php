@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Http\Requests\BookStoreRequest;
+use App\Http\Requests\BookUpdateRequest;
 
 class BookController extends Controller
 {
@@ -41,5 +42,37 @@ class BookController extends Controller
         ]);
 
         return redirect()->route('books.index')->with('success', 'Libro inserito con successo!');
+    }
+
+    public function show(Book $book)
+    {
+        return view('show', ['book' => $book]);
+    }
+
+    public function edit(Book $book)
+    {
+        return view('edit', ['book' => $book]);
+    }
+
+    public function update(BookUpdateRequest $request, Book $book)
+    {
+        $path_image = $book->image;
+        if ($request->hasFile('image')) {
+            $path_image = $request->file('image')->store('covers', 'public');
+        }
+        $book->update([
+            'name' => $request->input('name'),
+            'pages' =>  $request->input('pages'),
+            'year' =>  $request->input('year'),
+            'image' =>  $path_image
+        ]);
+
+        return redirect()->route('books.index')->with('success', 'Libro modificato con successo!');
+    }
+
+    public function destroy(Book $book)
+    {
+        $book->delete();
+        return redirect()->route('books.index')->with('success', 'Libro eliminato con successo!');
     }
 }
