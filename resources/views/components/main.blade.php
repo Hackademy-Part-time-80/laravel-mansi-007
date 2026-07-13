@@ -25,6 +25,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('books.create') }}">Crea Libro</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('authors.index') }}">Lista Autori</a>
+                    </li>
 
 
                 </ul>
