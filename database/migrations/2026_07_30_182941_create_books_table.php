@@ -16,6 +16,12 @@ return new class extends Migration
             $table->string('name', 100);
             $table->integer('pages')->nullable();
             $table->integer('year')->nullable();
+            $table->string('image')->nullable()->default('public/images/default.png');
+            $table->unsignedBigInteger('author_id');
+            $table
+                ->foreign('author_id')
+                ->references('id')
+                ->on('authors');
             $table->timestamps();
         });
     }

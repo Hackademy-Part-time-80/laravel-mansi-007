@@ -6,6 +6,7 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
+use App\Models\Author;
 
 class BookController extends Controller
 {
@@ -22,7 +23,9 @@ class BookController extends Controller
 
     public function create()
     {
-        return view('create');
+        //devo portare dietro una variabile $authors
+        $authors = Author::all();
+        return view('create', ['authors' => $authors]);
     }
 
     public function store(BookStoreRequest $request)
@@ -38,7 +41,8 @@ class BookController extends Controller
             'name' => $request->input('name'),
             'pages' =>  $request->input('pages'),
             'year' =>  $request->input('year'),
-            'image' =>  $path_image
+            'image' =>  $path_image,
+            'author_id' => $request->input('author_id'),
         ]);
 
         return redirect()->route('books.index')->with('success', 'Libro inserito con successo!');

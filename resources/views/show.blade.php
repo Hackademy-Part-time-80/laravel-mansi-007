@@ -4,6 +4,6 @@
         <p>Dettagli del libro: {{ $book->name }}</p>
         <p> Pagine del libro: {{ $book->pages }}</p>
         <p> Anno del libro: {{ $book->year }}</p>
-
+        <p>Autore: {{ $book->author->firstname }} {{ $book->author->lastname }}</p>
     </div>
 </x-main>

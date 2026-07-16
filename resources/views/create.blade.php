@@ -32,7 +32,16 @@
                     </div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <label for="select-author" class="form-label">Autore</label>
 
+                <select class="form-select" aria-label="Default select example" id="select-author" name="author_id">
+                    @foreach ($authors as $author)
+                        <option value="{{ $author->id }}">{{ $author->firstname }} {{ $author->lastname }}</option>
+                    @endforeach
+                </select>
+
+            </div>
             <div class="mb-3">
                 <label for="formFileLg" class="form-label">Cover</label>
                 <input class="form-control form-control-lg" id="formFileLg" type="file" name="image">
