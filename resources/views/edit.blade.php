@@ -33,7 +33,19 @@
                     </div>
                 @enderror
             </div>
-
+            <div class="mb-3">
+                <label class="form-label">Categorie</label>
+                @foreach ($categories as $category)
+                    <div class="form-check">
+                        <input @if ($book->categories->contains($category->id)) checked @endif class="form-check-input"
+                            name="categories[]" type="checkbox" value="{{ $category->id }}"
+                            id="checkDefault-{{ $category->id }}">
+                        <label class="form-check-label" for="checkDefault-{{ $category->id }}">
+                            {{ $category->name }}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
             <div class="mb-3">
                 <img style="height:10rem;" src="{{ Storage::url($book->image) }}" alt="">
                 <label for="formFileLg" class="form-label">Cover Attuale</label>

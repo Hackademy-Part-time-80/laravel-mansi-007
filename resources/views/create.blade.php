@@ -43,6 +43,18 @@
 
             </div>
             <div class="mb-3">
+                <label class="form-label">Categorie</label>
+                @foreach ($categories as $category)
+                    <div class="form-check">
+                        <input class="form-check-input" name="categories[]" type="checkbox" value="{{ $category->id }}"
+                            id="checkDefault-{{ $category->id }}">
+                        <label class="form-check-label" for="checkDefault-{{ $category->id }}">
+                            {{ $category->name }}
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+            <div class="mb-3">
                 <label for="formFileLg" class="form-label">Cover</label>
                 <input class="form-control form-control-lg" id="formFileLg" type="file" name="image">
 

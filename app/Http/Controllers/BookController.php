@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\BookStoreRequest;
 use App\Http\Requests\BookUpdateRequest;
 use App\Models\Author;
+use App\Models\Category;
 
 class BookController extends Controller
 {
@@ -25,25 +26,27 @@ class BookController extends Controller
     {
         //devo portare dietro una variabile $authors
         $authors = Author::all();
-        return view('create', ['authors' => $authors]);
+        $categories = Category::all();
+        return view('create', ['authors' => $authors, 'categories' => $categories]);
     }
 
     public function store(BookStoreRequest $request)
     {
+
         $path_image = '';
         if ($request->hasFile('image')) {
             $path_image = $request->file('image')->store('covers', 'public');
         }
 
-
-
-        Book::create([
+        $book = Book::create([
             'name' => $request->input('name'),
             'pages' =>  $request->input('pages'),
             'year' =>  $request->input('year'),
             'image' =>  $path_image,
             'author_id' => $request->input('author_id'),
         ]);
+
+        $book->categories()->attach($request->categories); //qui scrivo nella tabella pivot
 
         return redirect()->route('books.index')->with('success', 'Libro inserito con successo!');
     }
@@ -55,11 +58,13 @@ class BookController extends Controller
 
     public function edit(Book $book)
     {
-        return view('edit', ['book' => $book]);
+        $categories = Category::all();
+        return view('edit', ['book' => $book, 'categories' => $categories]);
     }
 
     public function update(BookUpdateRequest $request, Book $book)
     {
+
         $path_image = $book->image;
         if ($request->hasFile('image')) {
             $path_image = $request->file('image')->store('covers', 'public');
@@ -70,7 +75,9 @@ class BookController extends Controller
             'year' =>  $request->input('year'),
             'image' =>  $path_image
         ]);
-
+        $book->categories()->sync($request->categories);
+        // $book->categories()->detach();
+        // $book->categories()->attach($request->categories); //qui scrivo nella tabella pivot
         return redirect()->route('books.index')->with('success', 'Libro modificato con successo!');
     }
 
